@@ -6,7 +6,7 @@
 #  By: asulon <asulon@student.42nice.fr>         +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/04/27 18:12:11 by asulon          #+#    #+#               #
-#  Updated: 2026/04/27 19:15:56 by asulon          ###   ########.fr        #
+#  Updated: 2026/04/28 02:40:51 by asulon          ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -33,13 +33,21 @@ def main() -> None:
     print("Space Station Data Validation")
     print("=" * 40)
 
+    valid_station = {"station_id": "NOS001",
+                     "name": "Nostromo",
+                     "crew_size": 8,
+                     "power_level": 16,
+                     "oxygen_level": 10,
+                     "last_maintenance": datetime(2026, 5, 24)}
+
+    invalid_station = {"station_id": "NOS001",
+                       "name": "Nostromo",
+                       "crew_size": 5353,
+                       "power_level": 16,
+                       "oxygen_level": 10,
+                       "last_maintenance": datetime(2026, 5, 24)}
     try:
-        nostromo = SpaceStation(station_id="NOS001",
-                                name="Nostromo",
-                                crew_size=8,
-                                power_level=16,
-                                oxygen_level=10,
-                                last_maintenance="2026-04-10T14:30:00")
+        nostromo = SpaceStation(**valid_station)
         print("Valid station created:")
         print(f"ID: {nostromo.station_id}")
         print(f"Name: {nostromo.name}")
@@ -49,18 +57,15 @@ def main() -> None:
         print("Status: "
               "Operational" if nostromo.is_operational else "Disfuntionnal")
     except ValidationError as e:
-        print(e.errors()[0]["msg"])
+        for err in e.errors():
+            field = ".".join(str(x) for x in err["loc"])
+            print(f"Field {field}: {err["msg"]}")
 
     print("=" * 40)
 
     try:
         print("Expected validation error:")
-        nostromo = SpaceStation(station_id="NOS001",
-                                name="Nostromo",
-                                crew_size=5252,
-                                power_level=16,
-                                oxygen_level=10,
-                                last_maintenance="2026-04-10T14:30:00")
+        nostromo = SpaceStation(**invalid_station)
         print("Valid station created:")
         print(f"ID: {nostromo.station_id}")
         print(f"Name: {nostromo.name}")
@@ -70,7 +75,9 @@ def main() -> None:
         print("Status: "
               "Operational" if nostromo.is_operational else "Disfuntionnal")
     except ValidationError as e:
-        print(e.errors()[0]["msg"])
+        for err in e.errors():
+            field = ".".join(str(x) for x in err["loc"])
+            print(f"Field {field}: {err["msg"]}")
 
 
 if __name__ == "__main__":
