@@ -6,7 +6,7 @@
 #  By: asulon <asulon@student.42nice.fr>         +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/04/28 02:41:17 by asulon          #+#    #+#               #
-#  Updated: 2026/04/28 03:33:34 by asulon          ###   ########.fr        #
+#  Updated: 2026/04/28 23:54:54 by asulon          ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -102,9 +102,9 @@ def main() -> None:
         "crew": travelers,
         "budget_millions": 10000
     }
-    invalid_mission = {}
+
     try:
-        print("Expected validation error:")
+        print("Valid mission created:")
         valid = SpaceMission(**valid_mission)
         print(f"Mission: {valid.mission_name}")
         print(f"ID: {valid.mission_id}")
@@ -114,6 +114,51 @@ def main() -> None:
         print(f"Crew size: {len(valid.crew)}")
         print("Crew members")
         for member in valid.crew:
+            print(
+                f" - {member.name} ({member.rank.value}) - "
+                f"{member.specialization}"
+            )
+    except ValidationError as e:
+        for err in e.errors():
+            field = ".".join(str(x) for x in err["loc"])
+            print(f"Field {field}: {err['msg']}")
+    print()
+    print("=" * 40)
+    try:
+        travelers: list[CrewMember] = [
+            CrewMember(member_id="CPT_001",
+                       name="Solanum",
+                       rank=Rank.CADER,
+                       age=18,
+                       specialization="Quantic explorer",
+                       years_experience=50,
+                       is_active=True),
+            CrewMember(member_id="PSN_001",
+                       name="Feldspath",
+                       rank=Rank.CADER,
+                       age=40,
+                       specialization="Pilot",
+                       years_experience=2,
+                       is_active=True)]
+        invalid_mission = {
+            "mission_id": "R19",
+            "mission_name": "Ech",
+            "destination": "E",
+            "launch_date": datetime(1900, 1, 1),
+            "duration_days": 364000,
+            "crew": travelers,
+            "budget_millions": 1000011
+        }
+        print("Expected validation error:")
+        invalid = SpaceMission(**invalid_mission)
+        print(f"Mission: {invalid.mission_name}")
+        print(f"ID: {invalid.mission_id}")
+        print(f"Destination {invalid.destination}")
+        print(f"Duration: {invalid.duration_days} days")
+        print(f"Budget: ${invalid.budget_millions:.1f}M")
+        print(f"Crew size: {len(invalid.crew)}")
+        print("Crew members")
+        for member in invalid.crew:
             print(
                 f" - {member.name} ({member.rank.value}) - "
                 f"{member.specialization}"
