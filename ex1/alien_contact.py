@@ -3,10 +3,10 @@
 #                                                      :::      ::::::::    #
 #  alien_contact.py                                  :+:      :+:    :+:    #
 #                                                  +:+ +:+         +:+      #
-#  By: asulon <asulon@student.42nice.fr>         +#+  +:+       +#+         #
+#  By: asulon <asulon@student.42.fr>             +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/04/28 01:41:46 by asulon          #+#    #+#               #
-#  Updated: 2026/04/28 02:40:40 by asulon          ###   ########.fr        #
+#  Updated: 2026/05/06 15:32:37 by asulon          ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -93,7 +93,7 @@ def main() -> None:
     except ValidationError as e:
         for err in e.errors():
             field = ".".join(str(x) for x in err["loc"])
-            print(f"Field {field}: {err["msg"]}")
+            print(f"Field {field}: {err['msg']}")
 
     print("=" * 40)
     try:
@@ -109,7 +109,7 @@ def main() -> None:
     except ValidationError as e:
         for err in e.errors():
             field = ".".join(str(x) for x in err["loc"])
-            print(f"Field {field}: {err["msg"]}")
+            print(f"Field {field}: {err['msg']}")
 
 
 if __name__ == "__main__":

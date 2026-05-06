@@ -3,10 +3,10 @@
 #                                                      :::      ::::::::    #
 #  space_station.py                                  :+:      :+:    :+:    #
 #                                                  +:+ +:+         +:+      #
-#  By: asulon <asulon@student.42nice.fr>         +#+  +:+       +#+         #
+#  By: asulon <asulon@student.42.fr>             +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/04/27 18:12:11 by asulon          #+#    #+#               #
-#  Updated: 2026/04/28 02:40:51 by asulon          ###   ########.fr        #
+#  Updated: 2026/05/06 15:31:45 by asulon          ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -59,7 +59,7 @@ def main() -> None:
     except ValidationError as e:
         for err in e.errors():
             field = ".".join(str(x) for x in err["loc"])
-            print(f"Field {field}: {err["msg"]}")
+            print(f"Field {field}: {err['msg']}")
 
     print("=" * 40)
 
@@ -77,7 +77,7 @@ def main() -> None:
     except ValidationError as e:
         for err in e.errors():
             field = ".".join(str(x) for x in err["loc"])
-            print(f"Field {field}: {err["msg"]}")
+            print(f"Field {field}: {err['msg']}")
 
 
 if __name__ == "__main__":
